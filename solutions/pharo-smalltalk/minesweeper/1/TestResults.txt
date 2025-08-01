@@ -1,0 +1,5 @@
+Tested on: 2024-07-25 18:57
+12 run, 12 passes, 0 skipped, 0 failures, 0 errors.
+Used OS/Platform: unix linux-gnu x86_64
+Image version: Pharo11.0.0 build: 707 (64 Bit)
+VM version: v10.0.7 - Commit: b66dd58 - Date: 2023-09-13 15:14:31 +0200
