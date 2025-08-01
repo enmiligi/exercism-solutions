@@ -1,0 +1,28 @@
+.globl transcribe_rna
+.text
+transcribe_rna:
+loop:
+lbu $t0, ($a0)
+add $a0, $a0, 1
+beqz $t0, ret
+beq $t0, 'A', a
+beq $t0, 'C', c
+beq $t0, 'G', g
+beq $t0, 'T', t
+a:
+li $t1, 'U'
+j push_char
+c:
+li $t1, 'G'
+j push_char
+g:
+li $t1, 'C'
+j push_char
+t:
+li $t1, 'A'
+push_char:
+sb $t1, ($a1)
+add $a1, $a1, 1
+j loop
+ret:
+jr $ra
