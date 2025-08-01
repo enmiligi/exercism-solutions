@@ -1,0 +1,88 @@
+.globl color_code
+.data
+black: .asciiz "black"
+brown: .asciiz "brown"
+red: .asciiz "red"
+orange: .asciiz "orange"
+yellow: .asciiz "yellow"
+green: .asciiz "green"
+blue: .asciiz "blue"
+violet: .asciiz "violet"
+grey: .asciiz "grey"
+white: .asciiz "white"
+
+.text
+string_equal:
+	li $t0, 0
+se_loop:
+	add $t2, $a0, $t0
+	add $t3, $a1, $t0
+	lbu $t1, 0 ($t2)
+	lbu $t2, 0 ($t3)
+	bne $t1, $t2, se_0
+	beq $t1, 0, se_1
+	add $t0, $t0, 1
+	j se_loop
+se_0:
+	li $v0, 0
+	jr $ra
+se_1:
+	li $v0, 1
+	jr $ra
+
+color_code:
+sub $sp, $sp, 4
+sw $ra, ($sp)
+la $a1 black
+jal string_equal
+beq $v0, 1, b0
+la $a1 brown
+jal string_equal
+beq $v0, 1, b1
+la $a1 red
+jal string_equal
+beq $v0, 1, b2
+la $a1 orange
+jal string_equal
+beq $v0, 1, b3
+la $a1 yellow
+jal string_equal
+beq $v0, 1, b4
+la $a1 green
+jal string_equal
+beq $v0, 1, b5
+la $a1 blue
+jal string_equal
+beq $v0, 1, b6
+la $a1 violet
+jal string_equal
+beq $v0, 1, b7
+la $a1 grey
+jal string_equal
+beq $v0, 1, b8
+la $a1 white
+jal string_equal
+beq $v0, 1, b9
+b0: li $v0, 0
+j ret
+b1: li $v0, 1
+j ret
+b2: li $v0, 2
+j ret
+b3: li $v0, 3
+j ret
+b4: li $v0, 4
+j ret
+b5: li $v0, 5
+j ret
+b6: li $v0, 6
+j ret
+b7: li $v0, 7
+j ret
+b8: li $v0, 8
+j ret
+b9: li $v0, 9
+j ret
+ret: lw $ra, ($sp)
+add $sp, $sp, 4
+jr $ra
