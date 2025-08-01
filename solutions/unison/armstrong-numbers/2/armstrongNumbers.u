@@ -1,0 +1,11 @@
+armstrongNumbers.isArmstrongNumber : Nat -> Boolean
+armstrongNumbers.isArmstrongNumber number =
+  digits = getDigits number
+  size = List.size digits
+  foldLeft (+) 0 (map (x -> (Nat.pow x size)) digits) == number
+
+getDigits : Nat -> [Nat]
+getDigits number =
+  if number < 10
+    then [number]
+    else getDigits (number / 10) :+ (mod number 10)
