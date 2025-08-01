@@ -1,0 +1,71 @@
+.globl raindrops
+.data
+pling: .asciiz "Pling"
+plang: .asciiz "Plang"
+plong: .asciiz "Plong"
+.text
+push_string:
+lbu $t0, ($a0)
+beqz $t0, push_ret
+sb $t0, ($a1)
+add $a0, $a0, 1
+add $a1, $a1, 1
+j push_string
+push_ret:
+jr $ra
+
+push_int:
+move $t0, $a0
+li $t1, 0
+li $t3, 10
+get_int_length:
+beqz $t0, add_int
+add $t1, $t1, 1
+div $t0, $t0, 10
+j get_int_length
+add_int:
+move $t0, $a0
+add $t1, $a1, $t1
+add_loop:
+sub $t1, $t1, 1
+div $t0, $t3
+mfhi $t2
+mflo $t0
+add $t2, $t2, '0'
+sb $t2, ($t1)
+beq $t1, $a1, int_ret
+j add_loop
+int_ret: jr $ra
+
+
+raindrops:
+sub $sp, $sp, 12
+sw $s1, 8 ($sp)
+sw $s0, 4 ($sp)
+sw $ra, ($sp)
+move $s0, $a0
+move $s1, $a1
+rem $t0, $s0, 3
+bnez $t0, add_plang
+la $a0, pling
+jal push_string
+add_plang:
+rem $t0, $s0, 5
+bnez $t0, add_plong
+la $a0, plang
+jal push_string
+add_plong:
+rem $t0, $s0, 7
+bnez $t0, empty_check
+la $a0, plong
+jal push_string
+empty_check:
+bne $a1, $s1, ret
+move $a0, $s0
+jal push_int
+ret:
+lw $ra, ($sp)
+lw $s0, 4 ($sp)
+lw $s1, 8 ($sp)
+add $sp, $sp, 4
+jr $ra
