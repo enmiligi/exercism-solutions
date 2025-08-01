@@ -1,0 +1,8 @@
+acronym.abbreviate : Text -> Text
+acronym.abbreviate test = 
+    toCharList test
+      |> List.split (x -> List.contains x [?\s, ?-])
+      |> map (filter isLetter)
+      |> filterMap head
+      |> map toUpper
+      |> fromCharList
