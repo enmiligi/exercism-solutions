@@ -1,0 +1,6 @@
+leap.leap : Nat -> Boolean
+leap.leap year =
+  div400 = (mod year 400) == 0
+  div100 = (mod year 100) == 0
+  div4 = (mod year 4) == 0
+  div400 || (div4 && (not div100))
