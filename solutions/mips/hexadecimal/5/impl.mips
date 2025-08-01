@@ -1,0 +1,21 @@
+.globl hex_convert
+.text
+hex_convert:
+li $v0, 0
+hex_loop:
+lbu $t0, ($a0)
+beqz $t0, ret
+add $a0, $a0, 1
+mul $v0, $v0, 16
+bge $t0, 'A', char
+sub $t0, $t0, '0'
+add $v0, $v0, $t0
+j hex_loop
+char:
+or $t0, $t0, 0x20
+sub $t0, $t0, 'a'
+add $t0, $t0, 10
+add $v0, $v0, $t0
+j hex_loop
+ret:
+jr $ra

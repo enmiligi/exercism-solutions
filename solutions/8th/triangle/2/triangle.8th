@@ -1,0 +1,28 @@
+: correct? \ n n n -- T n n n
+    3dup and and !if false ;then
+    3dup      n:+ n:> if false ;then
+    3dup -rot n:+ n:> if false ;then
+    3dup rot  n:+ n:> not
+;
+
+: equilateral? \ n n n -- T
+    with: n
+    correct? !if 3drop false ;then
+    dup -rot n:= -rot n:= and
+;
+
+: anyTwoEqual? \ n n n -- T
+    2dup n:= if 3drop true ;then
+    third n:= if 2drop true ;then
+    n:=
+;
+
+: scalene? \ n n n -- T
+    correct? !if 3drop false ;then
+    anyTwoEqual? not
+;
+
+: isosceles? \ n n n -- T
+    correct? !if 3drop false ;then
+    anyTwoEqual?
+;

@@ -1,0 +1,24 @@
+.globl is_isogram
+.text
+is_isogram:
+li $t0, 0 # bitmask for letter
+li $t2, 1
+loop:
+lbu $t1, ($a0)
+beqz $t1, ret
+add $a0, $a0, 1
+ori $t1, $t1, 0x20 # convert upper- to lowercase
+blt $t1, 'a', loop
+bgt $t1, 'z', loop
+sub $t1, $t1, 'a'
+sllv $t3, $t2, $t1 # select bit for character
+and $t4, $t0, $t3 # bit in both means duplicate letter
+bnez $t4, no_isogram
+or $t0, $t0, $t3 # add bit
+j loop
+no_isogram:
+li $v0, 0
+jr $ra
+ret:
+li $v0, 1
+jr $ra

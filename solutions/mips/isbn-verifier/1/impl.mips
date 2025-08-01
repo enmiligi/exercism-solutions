@@ -1,0 +1,33 @@
+.globl is_valid
+.text
+
+is_valid:
+move $t0, $a0
+li $t2, 0
+li $t3, 11
+loop:
+lbu $t1, ($t0)
+beqz $t1, ret
+add $t0, $t0, 1
+beq $t1, 45, loop # 45 is '-'
+sub $t3, $t3, 1
+beq $t1, 88, x # 88 is 'X'
+blt $t1, 48, false # 48 is '0'
+bgt $t1, 57, false # 57 is '9'
+sub $t1, $t1, 48 # subtract '0' to get digit
+mul $t4, $t1, $t3
+add $t2, $t2, $t4
+j loop
+x:
+bne $t3, 1, false 
+mul $t4, $t3, 10
+add $t2, $t2, $t4
+j loop
+false:
+li $v0, 0
+jr $ra
+ret:
+bne $t3, 1, false
+rem $t3, $t2, 11
+seq $v0, $t3, $0
+jr $ra

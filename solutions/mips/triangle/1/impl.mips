@@ -1,0 +1,25 @@
+.globl triangle
+.text
+triangle:
+beq $a0, 0, invalid
+add $t0, $a0, $a1
+blt $t0, $a2, invalid
+add $t0, $a1, $a2
+blt $t0, $a0, invalid
+add $t0, $a0, $a2
+blt $t0, $a1, invalid
+beq $a0, $a1, equilateral
+beq $a1, $a2, isosceles
+beq $a0, $a2, isosceles
+li $v0, 0
+j ret
+isosceles:
+li $v0, 1
+j ret
+equilateral:
+bne $a1, $a2, isosceles
+li $v0, 2
+j ret
+invalid:
+li $v0, 3
+ret: jr $ra

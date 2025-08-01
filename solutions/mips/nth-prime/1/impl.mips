@@ -1,0 +1,29 @@
+.globl nth_prime
+.data
+.align 2
+primes: .space 1024
+.text
+nth_prime:
+li $t0, 1 # number_to_test
+la $t1, primes # index_last_prime
+li $t5, 0 # number_of_primes
+loop:
+add $t0, $t0, 1
+la $t2, primes 
+check_number:
+beq $t2, $t1, prime_found
+lw $t3, ($t2)
+div $t0, $t3
+mfhi $t4
+beqz $t4, loop
+add $t2, $t2, 4
+j check_number
+prime_found:
+sw $t0, ($t1)
+add $t1, $t1, 4
+add $t5, $t5, 1
+beq $t5, $a0, ret
+j loop
+ret:
+move $v0, $t0
+jr $ra 

@@ -1,0 +1,11 @@
+collatzConjecture.steps : Nat -> Optional Nat
+collatzConjecture.steps = cases
+  0 -> None
+  n -> 
+    inner n steps =
+      if n == 1 then steps else
+        if (mod n 2) == 0 then
+          inner (n / 2) (steps + 1)
+        else inner (n * 3 + 1) (steps + 1)
+    (Some (inner n 0))
+

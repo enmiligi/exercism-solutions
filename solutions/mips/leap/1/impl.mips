@@ -1,0 +1,15 @@
+.globl is_leap_year
+.text
+is_leap_year:
+	rem $t0, $a0, 400
+	beqz $t0, one
+	rem $t0, $a0, 100
+	beqz $t0, zero
+	rem $t0, $a0, 4
+	beqz $t0, one
+zero:
+	li $v0, 0
+	jr $ra
+one:
+	li $v0, 1
+	jr $ra

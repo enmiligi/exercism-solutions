@@ -1,0 +1,25 @@
+: correct? \ n n n -- T n n n
+    with: n
+    3dup and and !if false ;then
+    3dup      + > if false ;then
+    3dup -rot + > if false ;then
+    3dup rot  + > not
+;
+
+: equilateral? \ n n n -- T
+    correct? !if 3drop false ;then
+    dup -rot = -rot = and
+;
+: scalene? \ n n n -- T
+    correct? !if 3drop false ;then
+    2dup = if 3drop false ;then
+    rot dup -rot = if 2drop false ;then
+    = not
+
+;
+: isosceles? \ n n n -- T
+    correct? !if 3drop false ;then
+    2dup = if 3drop true ;then
+    rot dup -rot = if 2drop true ;then
+    =
+;

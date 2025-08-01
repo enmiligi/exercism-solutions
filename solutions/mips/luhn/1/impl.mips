@@ -1,0 +1,47 @@
+.globl valid
+.data
+digit0: .word '0'
+digit9: .word '9'
+.text
+valid:
+move $t0, $a0
+li $t1, 0
+li $t3, 0
+li $t5, '0'
+li $t6, '9'
+li $t7, ' '
+get_length:
+lbu $t2, ($t0)
+beqz $t2, length_end
+add $t0, $t0, 1
+beq $t2, $t7, get_length
+add $t1, $t1, 1
+j get_length
+length_end:
+move $t0, $a0
+beq $t1, 1, invalid
+loop:
+lbu $t4, ($t0)
+add $t0, $t0, 1
+beqz $t4, ret
+beq $t4, $t7, loop
+blt $t4, $t5, invalid
+bgt $t4, $t6, invalid
+sub $t4, $t4, $t5
+rem $t2, $t1, 2
+sub $t1, $t1, 1
+bnez $t2, add_it
+double:
+mul $t4, $t4, 2
+blt $t4, 10, add_it
+sub $t4, $t4, 9
+add_it:
+add $t3, $t3, $t4
+j loop
+invalid:
+move $v0, $zero
+jr $ra
+ret:
+rem $t3, $t3, 10
+seq $v0, $t3, 0
+jr $ra

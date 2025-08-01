@@ -1,0 +1,24 @@
+class AllYourBase {
+    def value
+
+    AllYourBase(inputBase, digits) {
+        if (inputBase < 2) throw new ArithmeticException()
+        value = 0
+        digits.each {
+            if (it < 0 || it >= inputBase) throw new ArithmeticException()
+            value = value * inputBase + it
+        }
+    }
+
+    def rebase(outputBase) {
+        if (outputBase < 2) throw new ArithmeticException()
+        if (value == 0) return [0]
+        def result = []
+        def v = value
+        while (v) {
+            result += v % outputBase
+            v = v.intdiv(outputBase)
+        }
+        return result.reverse()
+    }
+}

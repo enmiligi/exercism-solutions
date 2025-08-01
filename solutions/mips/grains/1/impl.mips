@@ -1,0 +1,20 @@
+.globl square
+.text
+square:
+	blt $a0, 1, exit
+	bgt $a0, 64, exit
+	sub $t0, $a0, 1
+	li $t1, 1
+	blt $t0, 32, low
+	li $v0, 0
+	sub $t0, $t0, 32
+	sllv $v1, $t1, $t0
+	jr $ra
+low:
+	sllv $v0, $t1, $t0
+	li $v1, 0
+        jr $ra
+exit:
+	move $v0, $zero
+	move $v1, $zero
+	jr $ra

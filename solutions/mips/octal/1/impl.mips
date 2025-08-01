@@ -1,0 +1,14 @@
+.globl octal_convert
+.text
+octal_convert:
+li $v0, 0
+octal_loop:
+lbu $t0, ($a0)
+beqz $t0, ret
+add $a0, $a0, 1
+mul $v0, $v0, 8
+sub $t0, $t0, '0'
+add $v0, $v0, $t0
+j octal_loop
+ret:
+jr $ra

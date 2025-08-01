@@ -1,0 +1,9 @@
+acronym.abbreviate : Text -> Text
+acronym.abbreviate test = 
+    withoutPunctuation = Text.join "" (List.map (c -> match c with
+                                                c | isLetter c -> Char.toText(c)
+                                                  | c === ?\s -> " "
+                                                  | c === ?- -> " "
+                                                _ -> "")(toCharList test))
+    Text.join "" (List.map (word -> Optional.getOrElse "" (Optional.map (Char.toUppercase >> Char.toText) (List.at 0 word))) 
+                    (map toCharList (Text.split ?\s withoutPunctuation)))
