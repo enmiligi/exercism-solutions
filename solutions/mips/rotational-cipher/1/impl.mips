@@ -1,0 +1,28 @@
+.globl rotate
+.text
+rotate:
+move $t0, $a0 # input address
+move $t1, $a2 # output address
+loop:
+lbu $t2, ($t0)
+beq $t2, 0, ret
+blt $t2, 65, back # 65 is ASCII for 'A'
+bge $t2, 97, lowercase # 97 is ASCII for 'a'
+bgt $t2, 90, back # 90 is ASCII for 'Z'
+li $t3, 65
+j letter
+lowercase:
+bgt $t2, 122, back # 122 is ASCII for 'z' 
+li $t3, 97
+letter:
+sub $t2, $t2, $t3 # subtract 'a' or 'A'
+add $t2, $t2, $a1 # shift
+rem $t2, $t2, 26
+add $t2, $t2, $t3 # add 'a' or 'A'
+back:
+sb $t2, ($t1)
+add $t0, $t0, 1
+add $t1, $t1, 1
+j loop
+ret:
+jr $ra
