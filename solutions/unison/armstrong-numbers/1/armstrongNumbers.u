@@ -1,0 +1,11 @@
+armstrongNumbers.isArmstrongNumber : Nat -> Boolean
+armstrongNumbers.isArmstrongNumber number =
+  length = ceiling (logBase 10.0 (fromNat number))
+  digits = getDigits (fromNat number) length
+  (List.foldLeft (Float.+) 0.0 (map (x -> (pow (fromNat x) length)) digits)) == fromNat number
+
+getDigits : Float -> Float -> [Nat]
+getDigits number length =
+  if length - 0.0 < 1.0
+    then []
+    else mod (getOrBug "" (toNat number)) 10 +: (getDigits (floor (number / 10.0)) (length - 1.0))
