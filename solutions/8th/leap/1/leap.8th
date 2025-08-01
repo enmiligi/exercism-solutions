@@ -1,0 +1,6 @@
+: leap-year? \ n -- T
+    dup 400 n:mod 0 = swap \ divisible by 400?
+    dup 4 n:mod 0 = swap \ divisible by 4?
+    100 n:mod 0 = not \ not divisible by 100?
+    and or
+;
