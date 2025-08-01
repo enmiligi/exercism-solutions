@@ -1,0 +1,17 @@
+.globl difference_of_squares
+.text
+difference_of_squares:
+li $t0, 0
+li $t1, 0
+li $t2, 0
+loop:
+beq $t0, $a0, ret
+add $t0, $t0, 1
+mul $t3, $t0, $t0
+add $t1, $t1, $t3
+add $t2, $t2, $t0
+j loop
+ret:
+mul $t2, $t2, $t2
+sub $v0, $t2, $t1
+jr $ra
