@@ -1,0 +1,93 @@
+.globl scrabble_score
+.data
+score_1: .asciiz "aeioulnrstAEIOULNRST"
+score_2: .asciiz "dgDG"
+score_3: .asciiz "bcmpBCMP"
+score_4: .asciiz "fhvwyFHVWY"
+score_5: .asciiz "kK"
+score_8: .asciiz "jxJX"
+score_10: .asciiz "qzQZ"
+.text
+contains_letter:
+lbu $t0, ($a1)
+beqz $t0, contains_not
+beq $a0, $t0, contains_yes
+add $a1, $a1, 1
+j contains_letter
+contains_yes:
+li $v0, 1
+jr $ra
+contains_not:
+li $v0, 0
+jr $ra 
+
+score_one_letter:
+sub $sp, $sp, 4
+sw $ra, ($sp)
+la $a1, score_1
+jal contains_letter
+bnez $v0, score_ret_1
+la $a1, score_2
+jal contains_letter
+bnez $v0, score_ret_2
+la $a1, score_3
+jal contains_letter
+bnez $v0, score_ret_3
+la $a1, score_4
+jal contains_letter
+bnez $v0, score_ret_4
+la $a1, score_5
+jal contains_letter
+bnez $v0, score_ret_5
+la $a1, score_8
+jal contains_letter
+bnez $v0, score_ret_8
+la $a1, score_10
+jal contains_letter
+bnez $v0, score_ret_10
+score_ret_1:
+li $v0, 1
+j score_ret
+score_ret_2:
+li $v0, 2
+j score_ret
+score_ret_3:
+li $v0, 3
+j score_ret
+score_ret_4:
+li $v0, 4
+j score_ret
+score_ret_5:
+li $v0, 5
+j score_ret
+score_ret_8:
+li $v0, 8
+j score_ret
+score_ret_10:
+li $v0, 10
+score_ret:
+lw $ra, ($sp)
+add $sp, $sp, 4
+jr $ra
+
+scrabble_score:
+sub $sp, $sp, 12
+sw $ra, ($sp)
+sw $s0, 4 ($sp)
+sw $s1, 8 ($sp)
+move $s0, $zero
+move $s1, $a0
+loop:
+lbu $a0, ($s1)
+beqz $a0, ret
+jal score_one_letter
+add $s0, $s0, $v0
+add $s1, $s1, 1
+j loop
+ret:
+move $v0, $s0
+lw $ra, ($sp)
+lw $s0, 4 ($sp)
+lw $s1, 8 ($sp)
+add $sp, $sp, 12
+jr $ra
