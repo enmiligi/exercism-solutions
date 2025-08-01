@@ -1,0 +1,12 @@
+binary_convert:
+li $v0, 0
+move $t0, $a0 # index
+loop:
+lbu $t1, 0 ($t0) # char
+beq $t1, 0, exit
+sll $v0, $v0, 1 
+subiu $t1, $t1, 48
+add $v0, $v0, $t1
+add $t0, $t0, 1
+j loop
+exit: jr $ra
