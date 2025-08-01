@@ -1,0 +1,5 @@
+: leap-year? \ n -- T
+    dup 4 n:mod if drop false ;then \ not divisible by 4? return false and exit current word
+    dup 100 n:mod if drop true ;then \ not divisible by 100? return true
+    400 n:mod 0 = \ divisible by 400?
+;
