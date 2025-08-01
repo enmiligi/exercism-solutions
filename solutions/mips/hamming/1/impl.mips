@@ -1,0 +1,17 @@
+.globl hamming_distance
+.text
+hamming_distance:
+	li $v0, 0
+	move $t0, $a0
+	move $t1, $a1
+loop:
+	lbu $t2, ($t0)
+	lbu $t3, ($t1)
+	beqz $t2, ret
+	add $t0, $t0, 1
+	add $t1, $t1, 1
+	beq $t2, $t3, loop
+	add $v0, $v0, 1
+	j loop
+
+ret: jr $ra
