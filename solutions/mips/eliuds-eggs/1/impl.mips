@@ -1,0 +1,14 @@
+.globl egg_count
+.data
+egg_count:
+	move $t0, $a0
+	li $v0, 0
+loop:
+	beq $t0, $zero, return
+	and $t1, $t0, 1 # t1 is Least significant bit
+	srl $t0, $t0, 1
+	beq $t1, $zero, loop
+	add $v0, $v0, 1
+	j loop
+return:
+	jr $ra
