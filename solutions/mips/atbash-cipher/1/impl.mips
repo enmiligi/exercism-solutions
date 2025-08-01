@@ -1,0 +1,35 @@
+.globl atbash_cipher
+.text
+atbash_cipher:
+move $t0, $a0
+move $t1, $a1
+li $t3, 'z'
+li $t4, 0
+loop:
+lbu $t2, ($t0)
+beqz $t2, ret
+add $t0, $t0, 1
+blt $t2, 'Z', uppercase
+blt $t2, 'a', loop
+bgt $t2, 'z', loop
+sub $t2, $t2, 'a'
+sub $t2, $t3, $t2
+j insert_space
+uppercase:
+blt $t2, 'A', loop
+sub $t2, $t2, 'A'
+sub $t2, $t3, $t2
+insert_space:
+beqz $t4, store
+rem $t5, $t4, 5
+bnez $t5, store
+li $t6, ' '
+sb $t6, ($t1)
+add $t1, $t1, 1
+store:
+sb $t2, ($t1)
+add $t1, $t1, 1
+add $t4, $t4, 1
+j loop
+ret:
+jr $ra
