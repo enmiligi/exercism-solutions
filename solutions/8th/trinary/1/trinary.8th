@@ -1,0 +1,20 @@
+: num> \ c -- n
+    dup 48 = if drop 0 ;then
+    dup 49 = if drop 1 ;then
+    dup 50 = if drop 2 ;then
+    null
+;
+
+: do_trinary> \ s -- n
+    dup "" = if 0 ;then
+    0 s:@ num>
+    swap s:len 1 - 3 swap n:^ rot n:* 
+    swap 1 -1 s:slice null? if drop ;then 
+    recurse n:+
+;
+
+: trinary> \ s -- n
+    dup ( swap null? if 2drop null else drop num> then ) 0 s:reduce
+    null? if 3drop 0 ;then
+    drop do_trinary>
+;
